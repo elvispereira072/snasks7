@@ -362,20 +362,6 @@
         var menuItems = document.getElementById('menuItems');
         menuItems.classList.toggle('active');
     }
-
-      menuToggle.addEventListener('click', function () {
-                navMenu.classList.toggle('active');
-                menuToggle.classList.toggle('open');
-            });
-
-            menuToggle.addEventListener('mouseover', function () {
-                menuToggle.style.transform = 'rotate(90deg)';
-            });
-
-            menuToggle.addEventListener('mouseout', function () {
-                menuToggle.style.transform = 'rotate(0deg)';
-            });
-        });
 </script>
 
 <body>
@@ -764,6 +750,22 @@
                 <p>We deliver within a 5 km radius.</p>
             </div>
     </div>
+
+    <script>
+        menuToggle.addEventListener('click', function () {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('open');
+            });
+
+            menuToggle.addEventListener('mouseover', function () {
+                menuToggle.style.transform = 'rotate(90deg)';
+            });
+
+            menuToggle.addEventListener('mouseout', function () {
+                menuToggle.style.transform = 'rotate(0deg)';
+            });
+        });
+    </script>
 
     <div class="footer-bottom">
         <p>&copy; 2024 HotDog - All rights reserved.</p>
