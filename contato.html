@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Cor de fundo da página */
+        }
+
+        form {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            background-color: red;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: blue;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <form action="https://api.staticforms.xyz/submit" method="post">
+        <input type="text" name="name" placeholder="Your Name">
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="phone" placeholder="Your Phone">
+        <input type="text" name="company" placeholder="Your Company">
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <input type="text" name="honeypot" style="display:none">
+        <input type="hidden" name="accessKey" value="11d0b5ed-df07-4c34-ad75-45ea3e034c56">
+        <input type="hidden" name="subject" value="Contact Form Submission">
+        <input type="hidden" name="replyTo" value="">
+        <input type="hidden" name="redirectTo" value="https://example.com/contact/success">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

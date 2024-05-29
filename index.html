@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: orangered;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            pointer-events: none;
+            animation: overlayFadeIn 2s ease-in-out;
+        }
+
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 0.5;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.2);
+            ;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .menu-items {
+            display: flex;
+            justify-content: center;
+        }
+
+        .menu-items a {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 20px;
+            }
+
+            .menu-items {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu-items a {
+                margin: 10px 0;
+            }
+
+            .menu-items.active {
+                display: flex;
+            }
+        }
+
+        section {
+            margin: 20px 0;
+        }
+
+        .product,
+        .faq,
+        .testimonial,
+        .contact-form,
+        .social-media,
+        .location,
+        .info {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            animation: contentFadeIn 2s ease-in-out;
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product {
+            background-color: rgba(5, 5, 5, 0.089);
+        }
+
+        .product img {
+            max-width: 100%;
+        }
+
+        footer {
+            background: rgba(5, 5, 5, 0.089);
+            padding: 10px;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 10px;
+            }
+
+            nav {
+                padding: 5px;
+            }
+
+            .product,
+            .faq,
+            .testimonial,
+            .contact-form,
+            .social-media,
+            .location,
+            .info {
+                padding: 10px;
+            }
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .testimonial {
+            background-color: rgba(5, 5, 5, 0.089);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial p {
+            margin: 0;
+        }
+
+        .testimonial em {
+            font-style: normal;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #e60000;
+            /* Vermelho */
+            color: white;
+            /* White */
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: blue;
+            /* Azul mais claro ao passar o mouse */
+        }
+
+        .rating {
+            font-size: 24px;
+            color: rgba(5, 5, 5, 0.089);
+            /* Cor das estrelas */
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .rating label:before {
+            content: '\2605';
+            /* Código Unicode da estrela vazia */
+        }
+
+        .rating input:checked~label:before {
+            content: '\2605';
+            /* Código Unicode da estrela preenchida */
+        }
+
+        .rating {
+            font-size: 24px;
+            color: yellow;
+            /* Cor das estrelas */
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .rating label:before {
+            content: '\2605';
+            /* Código Unicode da estrela vazia */
+        }
+
+        .rating input:checked~label:before {
+            content: '\2605';
+            /* Código Unicode da estrela preenchida */
+        }
+
+        /* Video de fundo */
+        .background-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0.7;
+            /* Ajuste a opacidade conforme necessário */
+        }
+
+        footer {
+            background-color: rgba(5, 5, 5, 0.089);
+            ;
+            /* Cor de fundo do footer (preto, por exemplo) */
+            color: #fff;
+            /* Cor do texto (branco) */
+            text-align: center;
+            /* Centralizar texto */
+            padding: 20px;
+            /* Espaçamento interno */
+        }
+
+        #special-offers,
+        #faq,
+        #contact {
+            background-color: rgba(5, 5, 5, 0.089);
+        }
+
+        .footer-bottom {
+            background-color:; /* Adicione esta linha se quiser um fundo específico para o rodapé */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+
+
+        form {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            background-color:  rgba(5, 5, 5, 0.089);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid  rgba(5, 5, 5, 0.089);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: red;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<script>
+    function toggleMenu() {
+        var menuItems = document.getElementById('menuItems');
+        menuItems.classList.toggle('active');
+    }
+</script>
+
+<body>
+    <!-- Video de fundo -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="assets/fruta.mp4" type="video/mp4">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+    <nav class="content">
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="menu-items" id="menuItems">
+            <a href="sobre.html"><i class="fas fa-home"></i> Sobre Nós</a>
+            <a href="#products"><i class="fas fa-box"></i> Produtos</a>
+            <a href="#special-offers"><i class="fas fa-tags"></i> Ofertas Especiais</a>
+            <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="#testimonials"><i class="fas fa-comment-alt"></i> Depoimentos</a>
+            <a href="#Location"><i class="fas fa-map-marker-alt"></i> Localização</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> Contato</a>
+        </div>
+    </nav>
+    <script src="scripts.js"></script>
+
+    <div class="content">
+        <section id="home">
+            <h1>Welcome to our page.</h1>
+            <p>Made with a unique combination of flavors and textures, it is a real temptation!</p>
+        </section>
+        <br>
+
+        <section id="products">
+
+            <div class="product">
+                <h2>Delicious snacks with the best ingredients.</h2>
+                <img src="assets/3.jpeg" alt="Lanche3">
+                <p>Feito com ingredientes da mais alta qualidade, este prato é uma ode à perfeição gastronômica.</p>
+                <p>Price: R$ 25.00</p>
+                <p>Discount: 5%</p>
+                <p>Discounted price: R$23.75</p>
+                <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                    class="cta-button">Comprar Agora</a>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Mc Donald</h2>
+                <img src="assets/4.webp" alt="Lanche2">
+                <p>Descrição do prato. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p>Price: R$ 19.99</p>
+                <p>Discount: 10%</p>
+                <p>Discounted price: R$17.99</p>
+                <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                    class="cta-button">Comprar Agora</a>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Best ingredients.</h2>
+                <img src="assets/Drink.webp" alt="Bebida3">
+                <p>Feito com ingredientes da mais alta qualidade, este prato é uma ode à perfeição gastronômica.</p>
+                <p>Price: R$ 12.00</p>
+                <p>Discount: 0%</p>
+                <p>Discounted price: R$ 12.00</p>
+                <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                    class="cta-button">Comprar Agora</a>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Natural Energy</h2>
+                <img src="assets/suco.webp" alt="Bebida4">
+                <p>Uma bebida energética natural para dar um impulso de energia ao longo do dia.</p>
+                <p>Feito com ingredientes saudáveis e revigorantes, esta bebida irá mantê-lo alerta e ativo.</p>
+                <p>Price: R$ 10.00</p>
+                <p>Discount: 0%</p>
+                <p>Discounted price: R$ 10.00</p>
+                <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                    class="cta-button">Comprar Agora</a>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Refreshing Summer Drink</h2>
+                <img src="assets/8.webp" alt="Bebida3">
+                <p>Uma bebida refrescante perfeita para dias quentes de verão.</p>
+                <p>Feito com frutas frescas e ingredientes naturais, esta bebida irá refrescá-lo a cada gole.</p>
+                <p>Price: R$ 8.50</p>
+                <p>Discount: 0%</p>
+                <p>Discounted price: R$8.50</p>
+                <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                    class="cta-button">Comprar Agora</a>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Snacks</h2>
+                <div class="product-item">
+                    <h3>Welcome to our page.</h3>
+                    <p>Made with a unique combination of flavors and textures, it is a real temptation!</p>
+                    <img src="assets/2.jpeg" alt="Lanche1">
+                    <p>The perfect blend of fresh, flavorful ingredients - it's simply irresistible!</p>
+                    <p>Price: R$ 15.00</p>
+                    <p>Discount: 0%</p>
+                    <p>Discounted price: R$ 15.00</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido." div
+                        class="cta-button">Comprar Agora</a>
+                </div>
+                <br>
+                <br>
+
+
+                <div class="product-item">
+                    <h3>Fritas</h3>
+                    <img src="assets/Com fritas.webp" alt="Lanche2">
+                    <p>Descrição do prato. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Price: R$ 19.99</p>
+                    <p>Discount: 10%</p>
+                    <p>Discounted price: R$ 17.99</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+                <br>
+                <br>
+
+                <div class="product-item">
+                    <h3>Delicious snacks with the best ingredients.</h3>
+                    <img src="assets/4.webp" alt="Lanche3">
+                    <p>Made with the highest quality ingredients, this dish is an ode to gastronomic perfection.</p>
+                    <p>Price: R$ 25.00</p>
+                    <p>Discount: 5%</p>
+                    <p>Discounted price: R$ 23.75</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+                <br>
+                <br>
+
+                <div class="product-item">
+                    <h3>Best ingredients.</h3>
+                    <img src="assets/1.jpeg" alt="Lanche4">
+                    <p>Made with the highest quality ingredients, this dish is an ode to gastronomic perfection.</p>
+                    <p>Price: R$ 12.00</p>
+                    <p>Discount: 0%</p>
+                    <p>Discounted price: R$ 12.00</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="product">
+                <h2>Barbecue</h2>
+                <div class="product-item">
+                    <h3>Smoked Pork Ribs</h3>
+                    <img src="assets/14.webp" alt="Churrasco3">
+                    <p>A succulent smoked pork rib, prepared slowly to enhance flavor and texture.</p>
+                    <p>With an irresistible smoky touch, this rib is a delight for barbecue lovers.</p>
+                    <p>Price: R$ 25.00</p>
+                    <p>Discount: 0%</p>
+                    <p>Discounted price: R$ 25.00</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+                <br>
+
+                <div class="product-item">
+                    <h3>Grilled Argentine Picanha</h3>
+                    <img src="assets/15.jpeg" alt="Churrasco4">
+                    <p>The famous grilled Argentine picanha, with its unmistakable flavor and incomparable succulence.
+                    </p>
+                    <p>Prepared with the finest cuts and grilled to perfection, this picanha will conquer your taste
+                        buds.</p>
+                    <p>Price: R$ 35.00</p>
+                    <p>Discount: 5%</p>
+                    <p>Discounted price: R$ 33.25</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+                <br>
+
+                <div class="product-item">
+                    <h3>Rump Marinated with Herbs</h3>
+                    <img src="assets/13.jpeg" alt="Churrasco5">
+                    <p>Juicy rump marinated in a mixture of fresh herbs, resulting in a unique and aromatic flavor.</p>
+                    <p>This rump is a delicious option for those looking for a barbecue with a touch of sophistication.
+                    </p>
+                    <p>Price: R$ 30.00</p>
+                    <p>Discount: 0%</p>
+                    <p>Discounted price: R$ 30.00</p>
+                    <a href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido."
+                        class="cta-button">Comprar Agora</a>
+                </div>
+            </div>
+        </section>
+        <br>
+
+        <form action="https://api.staticforms.xyz/submit" method="post">
+            <input type="text" name="name" placeholder="Your Name">
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="phone" placeholder="Your Phone">
+            <input type="text" name="company" placeholder="Your Company">
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <input type="text" name="honeypot" style="display:none">
+            <input type="hidden" name="accessKey" value="11d0b5ed-df07-4c34-ad75-45ea3e034c56">
+            <input type="hidden" name="subject" value="Contact Form Submission">
+            <input type="hidden" name="replyTo" value="">
+            <input type="hidden" name="redirectTo" value="https://example.com/contact/success">
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+
+        <section id="Location">
+            <h2>Nossa Localização</h2>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15011.292141156985!2d-122.0843372!3d37.4223663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085806ae88fb55d%3A0xf8df5647f047ee56!2sGolden%20Gate%20Bridge!5e0!3m2!1sen!2sus!4v1614354140015!5m2!1sen!2sus"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </section>
+
+        <section id="testimonials">
+            <h2>Testimonials</h2>
+
+            <div class="testimonial">
+                <p><em>— Ana C., Sandwich Aficionado</em></p>
+                <p>"The sandwiches at this place are amazing! Fresh ingredients and delicious combinations make them a
+                    perfect meal."</p>
+            </div>
+
+            <div class="testimonial">
+                <p><em>— Lucas M., Skewer Connoisseur</em></p>
+                <p>"I'm addicted to the kebabs here! Every bite is packed with flavor, and the meat is always tender and
+                    juicy."</p>
+            </div>
+
+            <div class="testimonial">
+                <p><em>— Ana R., Sweets Lover</em></p>
+                <p>"The sweets are irresistible! Every bite is an explosion of flavor."</p>
+            </div>
+
+            <div class="testimonial">
+                <p><em>— Carlos M., Satisfied Customer</em></p>
+                <p>"The personalized cakes exceeded my expectations! Beautiful and delicious."</p>
+            </div>
+
+
+            <div class="testimonial">
+                <p><em>— Laura T., Pie Admirer</em></p>
+                <p>"Fresh and very tasty pies! I will definitely be back to try other flavors."</p>
+            </div>
+
+            <div class="testimonial">
+                <p><em>— Sofia L., Passionate about Cakes</em></p>
+                <p>"The pastry at this place is simply incredible! The cakes are true works of art, both visually and in
+                    flavor. I recommend it to everyone looking for a unique gastronomic experience."</p>
+            </div>
+
+            <div class="testimonial">
+                <p><em>— Pedro C., Confectionery Lover</em></p>
+                <p>"The sweets at this bakery are an irresistible temptation! Each piece is an explosion of delicious
+                    flavors. I've tried several and I'm always delighted with the quality and variety on offer."</p>
+            </div>
+        </section>
+
+        <div class="rating">
+            <input type="radio" id="star9" name="rating" value="9">
+            <label for="star9">&#9733;</label>
+            <input type="radio" id="star8" name="rating" value="8">
+            <label for="star8">&#9733;</label>
+            <input type="radio" id="star7" name="rating" value="7">
+            <label for="star7">&#9733;</label>
+            <input type="radio" id="star6" name="rating" value="6">
+            <label for="star6">&#9733;</label>
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5">&#9733;</label>
+            <input type="radio" id="star9" name="rating" value="9">
+            <label for="star9">&#9733;</label>
+            <input type="radio" id="star8" name="rating" value="8">
+            <label for="star8">&#9733;</label>
+            <input type="radio" id="star7" name="rating" value="7">
+            <label for="star7">&#9733;</label>
+            <input type="radio" id="star6" name="rating" value="6">
+            <label for="star6">&#9733;</label>
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5">&#9733;</label>
+        </div>
+
+        <section id="special-offers" class="info">
+            <h2>Ofertas Especiais</h2>
+            <div class="offer-item">
+                <h3>Special Weekend: 20% Discount</h3>
+                <p>Enjoy a 20% discount on all orders placed during weekends. Don't miss this limited time offer!</p>
+            </div>
+<br>
+            <div class="offer item">
+                <h3>Combo: Burger + Fries</h3>
+                <p>Get a delicious burger with a portion of crispy fries for just R$20.00. Perfect for a quick meal!</p>
+            </div>
+<br>
+
+            <div class="offer item">
+                <h3>Happy Hour: Buy One, Get Two</h3>
+                <p>Join happy hour every weekday from 5pm to 7pm and take advantage of the buy one, tier two offer on
+                    select items.</p>
+            </div>
+        </section>
+
+        <section id="faq" class="faq">
+            <h2>FAQ (Perguntas Frequentes)</h2>
+            <div class="faq-item">
+                <h3>What are your delivery hours?</h3>
+                <p>We deliver from 11:00 AM to 10:00 PM, Monday through Sunday.</p>
+            </div>
+            <br>
+
+            <div class="faq-item">
+                <h3>What is your delivery radius?</h3>
+                <p>We deliver within a 5 km radius from our location.</p>
+            </div>
+            <br>
+
+            <div class="faq-item">
+                <h3>Do you offer vegetarian options?</h3>
+                <p>Yes, we have a variety of vegetarian options available on our menu.</p>
+            </div>
+            <br>
+
+            <div class="faq-item">
+                <h3>How can I place an order?</h3>
+                <p>You can place an order by clicking on the "Comprar Agora" button next to each product or by contacting us via WhatsApp at <a
+                        href="https://api.whatsapp.com/send?phone=13981430940&text=Olá! Gostaria de fazer um pedido.">13981430940</a>.
+                </p>
+            </div>
+            <br>
+
+            <div class="faq-item">
+                <h3>Do you cater for events?</h3>
+                <p>Yes, we provide catering services for events. Please contact us to discuss your event and menu options.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="info">
+            <h2>Contact Us</h2>
+            <br>
+            <div class="contact-item">
+                <p>Phone: <a href="tel:+5513981430940">(13) 98143-0940</a></p>
+                <br>
+                <p>Email: <a href="mailto:elvispereira070@gmail.com">elvispereira070@gmail.com"</a></p>
+                <br>
+                <p>Address: Av. Street, 123 - Texas/EUA</p>
+                <br>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-item">
+                    <h3>Opening Hours</h3>
+                    <p>Monday - Sunday: 11:00 AM - 10:00 PM</p>
+                    <br>
+                </div>
+
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/hotdog"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com/hotdog"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/hotdog"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/hotdog"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://t.me/hotdog"><i class="fab fa-telegram"></i></a>
+                    <a href="https://www.youtube.com/hotdog"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/1234567890"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://m.me/hotdog"><i class="fab fa-facebook-messenger"></i></a>
+                    <a href="https://open.spotify.com/user/hotdog"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+            <br>
+
+
+            <div class="footer-item">
+                <h3>Delivery Area</h3>
+                <p>We deliver within a 5 km radius.</p>
+            </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 HotDog - All rights reserved.</p>
+    </div>
+
+    </footer>
+</body>
+
+</html>
